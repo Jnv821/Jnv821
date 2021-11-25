@@ -113,6 +113,8 @@ echo Generando directorio para guardar hosting108 y hosting108-ssl
 sudo mkdir /var/www/hosting108
 sudo mkdir /var/www/hosting108-ssl
 
+echo Se han generado los directorios correctamente.
+
 echo Generando el archivo de configuracion para hosting108
 
  Genera el archivo de Virtual Host con todo el contenido necesario y limpia la terminal.
@@ -126,5 +128,20 @@ cat > /etc/apache2/sites-available/hosting108.conf << EOF
 
     # Apartado de Redirecciones
 
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteRule ^(.*)$ https://hosting108.ubuntuserver.local$1 [L,R=302]
+    </IfModule>
 
+    # Apartado de los documentos de errores
+
+    ErrorDocument 403 /ErrorDocs/403.html
+    ErrorDocument 404 /ErrorDocs/404.html
+    ErrorDocument 500 /ErrorDocs/500.html
+
+    # Fin de la configuracion
+
+</VirtualHost>
 EOF
+
+echo Se ha generado el archivo de configuración para hosting108
